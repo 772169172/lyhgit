@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="f1">
+    姓名<input type="text" name="sName" id="xm">
+    性别<input type="" name="gender" id="xb">
+    生日<input type="text" name="birthday" id="sr">
+    电话<input type="text" name="telephone" id="dh">
+    E-mail<input type="text" name="email" id="yx">
+    班级<select name="cName" id="classes">
+        <option value="-1">请选择</option>
+        </select>
+    <input type="submit" value="保存" id="bc">
+    <input type="button" value="返回" id="fh">
+</form>
+</body>
+</html>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("/getAllClasses", function (data) {
+            $.each(data, function () {
+                $("#classes").append(
+                    "<option value='" + this.id + "'>" + this.cName + "</option>"
+                );
+            });
+        });
+        $("#fh").click(function () {
+            window.location="index.html"
+        });
+        $("#bc").click(function () {
+            var cName = $("#classes").val();
+                if (cName==-1){
+                    alert("请选择班级！")
+                }
+                else {
+                    $.getJSON("/update",$("#f1").serialize(),function (data){
+                        if (data==null||data=="") {
+                            alert("修改失败，请重试！")
+                        }
+                    });
+                }
+        });
+
+    });
+
+
+
+
+
+
+
+
+
+</script>
